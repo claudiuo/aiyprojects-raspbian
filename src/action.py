@@ -193,11 +193,32 @@ class RepeatAfterMe(object):
         to_repeat = voice_command.replace(self.keyword, '', 1)
         self.say(to_repeat)
 
+# Power: Shutdown or reboot the pi
+# ================================
+# Shuts down the pi or reboots with a response
+#
+
+class PowerCommand(object):
+    """Shutdown or reboot the pi"""
+
+    def __init__(self, say, command):
+        self.say = say
+        self.command = command
+
+    def run(self, voice_command):
+        if self.command == "shutdown":
+            self.say("Shutting down, goodbye")
+            subprocess.call("sudo poweroff", shell=True)
+        elif self.command == "reboot":
+            self.say("Rebooting")
+            subprocess.call("sudo shutdown -r now", shell=True)
+        else:
+            logging.error("Error identifying power command.")
+            self.say("Sorry I didn't identify that command")
 
 # =========================================
 # Makers! Implement your own actions here.
 # =========================================
-
 
 def make_actor(say):
     """Create an actor to carry out the user's commands."""
@@ -219,6 +240,9 @@ def make_actor(say):
     # =========================================
     # Makers! Add your own voice commands here.
     # =========================================
+
+    actor.add_keyword(_('google, shutdown'), PowerCommand(say, 'shutdown'))
+    actor.add_keyword(_('google, reboot'), PowerCommand(say, 'reboot'))
 
     return actor
 
