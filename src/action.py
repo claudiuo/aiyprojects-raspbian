@@ -241,8 +241,8 @@ def make_actor(say):
     # Makers! Add your own voice commands here.
     # =========================================
 
-    actor.add_keyword(_('aiy shutdown'), PowerCommand(say, 'shutdown'))
-    actor.add_keyword(_('aiy reboot'), PowerCommand(say, 'reboot'))
+    actor.add_keyword(_('computer power off'), PowerCommand(say, 'shutdown'))
+    actor.add_keyword(_('computer reboot'), PowerCommand(say, 'reboot'))
 
     return actor
 
